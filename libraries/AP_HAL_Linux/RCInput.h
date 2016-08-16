@@ -50,6 +50,8 @@ protected:
 
     /* override state */
     uint16_t _override[LINUX_RC_INPUT_NUM_CHANNELS];
+    
+    uint32_t _dsm_failsafe_data = 0;
 
     // state of ppm decoder
     struct {

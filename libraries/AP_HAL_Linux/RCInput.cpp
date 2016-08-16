@@ -397,6 +397,17 @@ void RCInput::add_dsm_input(const uint8_t *bytes, size_t nbytes)
                     _num_channels = num_values;
                 }
                 new_rc_input = true;
+                /*
+                  update failsafe state.
+                 */
+                if (_dsm_failsafe_data == 1) {
+                    // reset override.
+                    // FIXME: This needs to be checked carefully,
+                    // probably inteferes with PC control. 
+                    // Testing required.
+                    _override[3] = 0; //FIXME: get channel number from somewhere
+                }
+                _dsm_failsafe_data = AP_HAL::millis();
 #if 0
                 printf("Decoded DSM %u channels %u %u %u %u %u %u %u %u\n",
                        (unsigned)num_values,

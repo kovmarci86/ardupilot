@@ -69,6 +69,15 @@ void RCInput_DSM::_timer_tick(void)
             add_dsm_input(bytes, nread);
         }
     }
+    
+    /*
+      Check dsm failsafe. We need at least some data to compare with.
+     */
+    uint32_t now = AP_HAL::millis();
+    if (_dsm_failsafe_data > 1 && now - _dsm_failsafe_data < 1000) { // FIXME: Constant this!
+        _dsm_failsafe_data = 1;
+        set_override(3, 900); // FIXME: Channel number, pwm override value.
+    }
 }
 #endif // CONFIG_HAL_BOARD_SUBTYPE
 
